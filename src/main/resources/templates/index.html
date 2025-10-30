@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${perfil.nome} + ' | Portfólio Profissional'"></title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1 th:text="${perfil.nome}">Nome do Profissional</h1>
+        <p th:text="${perfil.resumo}">Resumo</p>
+        <p>
+            <a th:href="${perfil.linkLinkedin}" target="_blank">LinkedIn</a> |
+            <a th:href="${perfil.linkGithub}" target="_blank">GitHub</a> |
+            <span th:text="${perfil.email}">email@contato.com</span>
+        </p>
+    </div>
+</header>
+
+<div class="container">
+
+    <section id="habilidades">
+        <h2>🛠️ Habilidades Técnicas</h2>
+        <div th:if="${#lists.isEmpty(perfil.habilidades)}">
+            <p>Nenhuma habilidade cadastrada.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(perfil.habilidades)}">
+                <span class="habilidade-tag" th:each="skill : ${perfil.habilidades}" th:text="${skill.nome} + ' (' + ${skill.nivel} + ')'">
+                    Habilidade (Nível)
+                </span>
+        </div>
+    </section>
+
+    <section id="experiencias">
+        <h2>💼 Experiência Profissional</h2>
+        <div th:if="${#lists.isEmpty(perfil.experiencias)}">
+            <p>Nenhuma experiência cadastrada.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(perfil.experiencias)}" th:each="exp : ${perfil.experiencias}">
+            <h3><span th:text="${exp.titulo}">Cargo</span> na <span th:text="${exp.empresaInstituicao}">Empresa</span></h3>
+            <p th:text="${exp.exibirPeriodo()}">Jan/2020 - Atual</p>
+            <p th:text="${exp.descricao}">Descrição das responsabilidades e conquistas.</p>
+            <hr th:if="${!expStat.last}"> </div>
+    </section>
+
+    <section id="projetos">
+        <h2>🚀 Projetos em Destaque</h2>
+        <div th:if="${#lists.isEmpty(perfil.projetos)}">
+            <p>Nenhum projeto cadastrado.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(perfil.projetos)}" th:each="projeto : ${perfil.projetos}" class="projeto-card">
+            <h3><a th:href="${projeto.linkRepositorio}" target="_blank" th:text="${projeto.titulo}">Título do Projeto</a></h3>
+            <p>Conclusão: <span th:text="${#temporals.format(projeto.dataConclusao, 'dd/MM/yyyy')}">Data</span></p>
+            <p th:text="${projeto.descricao}">Descrição detalhada.</p>
+
+            <div th:if="${!#lists.isEmpty(projeto.imagens)}">
+                <h4>Imagens:</h4>
+                <div th:each="img : ${projeto.imagens}" style="display: inline-block; margin-right: 10px;">
+                    <img th:src="${img.url}" th:alt="${img.nomeArquivo}" style="max-width: 150px; border: 1px solid #ccc; border-radius: 4px;">
+                </div>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(projeto.habilidades)}">
+                <h4>Tecnologias:</h4>
+                <span class="habilidade-tag" th:each="habilidade : ${projeto.habilidades}" th:text="${habilidade.nome}">
+                        Tech
+                    </span>
+            </div>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

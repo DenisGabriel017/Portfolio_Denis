@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Nova Experiência</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Adicionar Nova Experiência</h1>
+
+    <form th:action="@{/admin/experiencias/salvar}" th:object="${experiencia}" method="post">
+
+        <div class="form-group">
+            <label for="titulo">Título do Cargo:</label>
+            <input type="text" id="titulo" th:field="*{titulo}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="empresa">Empresa/Instituição:</label>
+            <input type="text" id="empresa" th:field="*{empresaInstituicao}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dataInicio">Data de Início:</label>
+            <input type="date" id="dataInicio" th:field="*{dataInicio}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dataFim">Data de Fim (Deixe vazio se for o cargo atual):</label>
+            <input type="date" id="dataFim" th:field="*{dataFim}">
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição (Responsabilidades/Conquistas):</label>
+            <textarea id="descricao" th:field="*{descricao}" rows="5" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Salvar Experiência</button>
+            <a th:href="@{/}" style="margin-left: 10px;">Voltar para o Portfólio</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
