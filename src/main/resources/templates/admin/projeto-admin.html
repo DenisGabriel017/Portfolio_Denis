@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Projetos</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .table-admin { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-admin th, .table-admin td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .btn-excluir { background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .btn-acao { background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🚀 Gerenciamento de Projetos</h1>
+
+    <p>
+        <a th:href="@{/}" class="btn-acao">&larr; Ver Portfólio</a>
+        <a th:href="@{/admin/projetos/novo}" class="btn-acao"> + Adicionar Novo Projeto</a>
+    </p>
+
+    <section id="lista-projetos">
+        <h2>Projetos Existentes</h2>
+
+        <table class="table-admin">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Repositório</th>
+                <th>Habilidades</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="proj : ${projetos}">
+                <td th:text="${proj.id}">1</td>
+                <td th:text="${proj.titulo}">Nome do Projeto</td>
+                <td><a th:href="${proj.linkRepositorio}" target="_blank">Link</a></td>
+                <td>
+                    <span th:each="hab : ${proj.habilidades}" th:text="${hab.nome} + ', '" style="font-size: 0.9em; color: #555;">Tech</span>
+                </td>
+                <td>
+                    <a th:href="@{admin/projetos/editar/{id}(id=${proj.id})}" class="btn-acao">Editar</a>
+
+                    <form th:action="@{/admin/projetos/excluir/{id}(id=${proj.id})}" method="post" style="display: inline;">
+                        <button type="submit" class="btn-excluir"
+                                onclick="return confirm('Excluir projeto ' + this.form.parentElement.parentElement.children[1].innerText + '?')">
+                            Excluir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+</body>
+</html>

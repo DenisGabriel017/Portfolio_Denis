@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Habilidades</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .table-admin { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table-admin th, .table-admin td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .btn-excluir { background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .form-group-inline { display: flex; gap: 10px; align-items: flex-end; }
+        .form-group-inline input { flex-grow: 1; padding: 8px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🛠️ Gerenciamento de Habilidades</h1>
+    <a th:href="@{/}" style="margin-bottom: 20px; display: block;">&larr; Voltar para o Portfólio</a>
+
+    <section id="adicionar-nova">
+        <h2>Adicionar Nova Habilidade</h2>
+        <form th:action="@{/admin/habilidades/salvar}" th:object="${novaHabilidade}" method="post" class="form-group-inline">
+
+            <div class="form-group">
+                <label for="nome">Nome (Ex: Spring Boot):</label>
+                <input type="text" id="nome" th:field="*{nome}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nivel">Nível (Ex: AVANCADO):</label>
+                <input type="text" id="nivel" th:field="*{nivel}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="icone">Ícone (Opcional):</label>
+                <input type="text" id="icone" th:field="*{icone}">
+            </div>
+
+            <div class="form-group" style="flex-grow: 0;">
+                <button type="submit">Salvar Habilidade</button>
+            </div>
+        </form>
+    </section>
+
+    <section id="lista-existente">
+        <h2>Habilidades Existentes</h2>
+
+        <table class="table-admin">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Nível</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hab : ${habilidade}">
+                <td th:text="${hab.id}">1</td>
+                <td th:text="${hab.nome}">Spring Boot</td>
+                <td th:text="${hab.nivel}">AVANCADO</td>
+                <td>
+                    <form th:action="@{/admin/habilidades/excluir/{id}(id=${hab.id})}" method="post" style="display: inline;">
+                        <button type="submit" class="btn-excluir"
+                                onclick="return confirm('Tem certeza que deseja excluir a habilidade ' + this.form.parentElement.parentElement.children[1].innerText + '?')">
+                            Excluir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+</body>
+</html>

@@ -30,5 +30,10 @@ public class WebController {
         }
     }
 
+    @GetMapping("/perfil-nao-encontrado")
+    public String perfilNaoEncontrado(){
+        return "perfil-nao-encontrado";
+    }
+
 
 }

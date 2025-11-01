@@ -1,11 +1,13 @@
 package com.dnsoftware.portfolio_api.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "habilidade")
 public class Habilidade {
 

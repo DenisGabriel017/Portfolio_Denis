@@ -23,7 +23,7 @@ public class Projeto {
     private String titulo;
     @Lob
     private String descricao;
-    private LocalDate dateConclusao;
+    private LocalDate dataConclusao;
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagem> imagens;
     private String linkRepositorio;

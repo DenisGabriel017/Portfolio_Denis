@@ -26,4 +26,8 @@ public class HabilidadeController {
         return habilidadeRepository.findAll();
     }
 
+    @DeleteMapping("/{id}")
+    public void deletarPorID(@PathVariable Long id){
+        habilidadeRepository.deleteById(id);
+    }
 }

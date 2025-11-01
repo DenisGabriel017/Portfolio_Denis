@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="(${projeto.id} == null) ? 'Novo Projeto' : 'Editar Projeto - ' + ${projeto.titulo}">Adicionar Novo Projeto</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* Estilos básicos para o formulário */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input[type="text"], .form-group textarea, .form-group input[type="date"] { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+        .checkbox-group { border: 1px solid #ddd; padding: 10px; height: 150px; overflow-y: scroll; background-color: #f9f9f9; }
+        .checkbox-group label { display: inline-block; margin-right: 15px; font-weight: normal; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="(${projeto.id} == null) ? 'Adicionar Novo Projeto' : 'Editar Projeto: ' + ${projeto.titulo}">
+        Gerenciar Projeto
+    </h1>
+    <p><a th:href="@{/admin/projetos}">&larr; Voltar para a Lista de Projetos</a></p>
+
+    <form th:action="@{/admin/projetos/} + ((${projeto.id} == null) ? 'salvar' : 'atualizar')" th:object="${projeto}" method="post">
+
+        <input type="hidden" th:field="*{id}" th:if="*{id}">
+
+        <div class="form-group">
+            <label for="titulo">Título do Projeto:</label>
+            <input type="text" id="titulo" th:field="*{titulo}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" th:field="*{descricao}" rows="5" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="dataConclusao">Data de Conclusão:</label>
+            <input type="date" id="dataConclusao" th:field="*{dataConclusao}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="linkRepositorio">Link do Repositório (GitHub):</label>
+            <input type="text" id="linkRepositorio" th:field="*{linkRepositorio}">
+        </div>
+
+        <div class="form-group">
+            <label>🛠️ **Habilidades Usadas:**</label>
+            <div class="checkbox-group">
+                <div th:each="habilidade : ${todasHabilidades}">
+                    <input type="checkbox"
+                           name="habilidadesIds"
+                           th:value="${habilidade.id}"
+                           th:id="'habilidade-' + ${habilidade.id}"
+                           th:checked="${projeto.habilidades != null && #lists.contains(projeto.habilidades, habilidade)}">
+
+                    <label th:for="'habilidade-' + ${habilidade.id}" th:text="${habilidade.nome}"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" th:text="(${projeto.id} == null) ? 'Salvar Novo Projeto' : 'Atualizar Projeto'">Salvar Projeto</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
