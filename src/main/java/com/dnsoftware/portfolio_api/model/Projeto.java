@@ -1,9 +1,7 @@
 package com.dnsoftware.portfolio_api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -12,9 +10,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "projeto")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"pessoa", "imagens", "habilidades"})
+@EqualsAndHashCode(exclude = {"pessoa", "imagens", "habilidades"})
 public class Projeto {
 
     @Id
@@ -24,15 +25,17 @@ public class Projeto {
     @Lob
     private String descricao;
     private LocalDate dataConclusao;
+
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagem> imagens;
+
     private String linkRepositorio;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id", nullable = false)
     private Pessoa pessoa;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "projeto_habilidade",
             joinColumns = @JoinColumn(name = "projeto_id"),

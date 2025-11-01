@@ -24,7 +24,7 @@ public class Experiencia {
     private LocalDate dataInicio;
     private LocalDate dataFim;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
     @ManyToOne(fetch = FetchType.LAZY)

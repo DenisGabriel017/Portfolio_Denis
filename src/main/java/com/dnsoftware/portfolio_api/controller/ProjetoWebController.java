@@ -8,9 +8,11 @@ import com.dnsoftware.portfolio_api.repository.PessoaRepository;
 import com.dnsoftware.portfolio_api.repository.ProjetoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashSet;
 import java.util.List;
@@ -61,11 +63,12 @@ public class ProjetoWebController {
             }
             pessoa.getProjetos().add(projeto);
             projetoRepository.save(projeto);
-            return "redirect:/";
+            return "redirect:/admin/projetos";
         }
         return "redirect:/perfil-nao-encontrado";
     }
 
+    @Transactional
     @GetMapping
       public String listarProjetos(Model model){
         List<Projeto> todosProjetos = projetoRepository.findAll();
@@ -76,11 +79,13 @@ public class ProjetoWebController {
 
 
     @PostMapping("/excluir/{id}")
-    public String excluirProjeto(@PathVariable Long id){
+    public String excluirProjeto(@PathVariable Long id, RedirectAttributes attributes) {
         projetoRepository.deleteById(id);
+        attributes.addFlashAttribute("mensagem", "Projeto excluído com sucesso.");
         return "redirect:/admin/projetos";
     }
 
+    @Transactional
     @GetMapping("/editar/{id}")
     public String exibirFormularioEdicao(@PathVariable Long id, Model model){
         Optional<Projeto> projetoOpt = projetoRepository.findById(id);
@@ -96,25 +101,40 @@ public class ProjetoWebController {
         return "redirect:/admin/projetos";
     }
 
+    @Transactional
     @PostMapping("/atualizar")
     public String atualizarProjeto(
-            @ModelAttribute Projeto projetoAtualizado,
-            @RequestParam(value = "habilidadesIds", required = false) List<Long> habilidadesIds){
-        Optional<Pessoa> pessoaOpt = pessoaRepository.findById(MEU_PERFIL_ID);
+            @ModelAttribute Projeto projetoDadosFormulario, // O projeto do formulário (com ID)
+            @RequestParam(value = "habilidadesIds", required = false) List<Long> habilidadesIds) {
 
-        if (pessoaOpt.isPresent()){
-            Pessoa pessoa = pessoaOpt.get();
+        Optional<Projeto> projetoGerenciadoOpt = projetoRepository.findById(projetoDadosFormulario.getId());
 
-            projetoAtualizado.setPessoa(pessoa);
-
-            if (habilidadesIds != null && !habilidadesIds.isEmpty()){
-                Set<Habilidade> habilidades = new HashSet<>(habilidadeRepository.findAllById(habilidadesIds));
-                projetoAtualizado.setHabilidades(habilidades);
-            }else {
-                projetoAtualizado.setHabilidades(new HashSet<>());
-            }
-            projetoRepository.save(projetoAtualizado);
+        if (projetoGerenciadoOpt.isEmpty()) {
+            return "redirect:/admin/projetos";
         }
+
+        Projeto projetoGerenciado = projetoGerenciadoOpt.get();
+
+        projetoGerenciado.setTitulo(projetoDadosFormulario.getTitulo());
+        projetoGerenciado.setDescricao(projetoDadosFormulario.getDescricao());
+        projetoGerenciado.setDataConclusao(projetoDadosFormulario.getDataConclusao());
+        projetoGerenciado.setLinkRepositorio(projetoDadosFormulario.getLinkRepositorio());
+
+        Pessoa pessoa = pessoaRepository.findById(MEU_PERFIL_ID).orElse(null);
+        if (pessoa != null) {
+            projetoGerenciado.setPessoa(pessoa);
+        }
+
+        Set<Habilidade> novasHabilidades = new HashSet<>();
+        if (habilidadesIds != null && !habilidadesIds.isEmpty()) {
+            novasHabilidades.addAll(habilidadeRepository.findAllById(habilidadesIds));
+        }
+
+        projetoGerenciado.getHabilidades().clear();
+        projetoGerenciado.getHabilidades().addAll(novasHabilidades);
+
+        projetoRepository.save(projetoGerenciado);
+
         return "redirect:/admin/projetos";
     }
 

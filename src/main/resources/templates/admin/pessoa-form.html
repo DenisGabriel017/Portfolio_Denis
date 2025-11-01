@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil Principal</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group button { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>👤 Editar Perfil Principal</h1>
+    <p>Ajuste suas informações, resumo e links sociais.</p>
+
+    <form th:action="@{/admin/perfil/atualizar}" th:object="${pessoa}" method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="text" id="email" th:field="*{email}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" th:field="*{telefone}">
+        </div>
+
+        <div class="form-group">
+            <label for="resumo">Resumo Profissional:</label>
+            <textarea id="resumo" th:field="*{resumo}" rows="5"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="linkLinkedin">Link do LinkedIn:</label>
+            <input type="text" id="linkLinkedin" th:field="*{linkLinkedin}">
+        </div>
+
+        <div class="form-group">
+            <label for="linkGithub">Link do GitHub:</label>
+            <input type="text" id="linkGithub" th:field="*{linkGithub}">
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Atualizar Perfil</button>
+            <a th:href="@{/}" style="margin-left: 10px;">Voltar para o Portfólio</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

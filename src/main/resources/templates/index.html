@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,19 +24,24 @@
 
     <section id="habilidades">
         <h2>🛠️ Habilidades Técnicas</h2>
-        <div th:if="${#lists.isEmpty(perfil.habilidades)}">
+        <div th:if="${#sets.isEmpty(perfil.habilidades)}">
             <p>Nenhuma habilidade cadastrada.</p>
         </div>
-        <div th:unless="${#lists.isEmpty(perfil.habilidades)}">
-                <span class="habilidade-tag" th:each="skill : ${perfil.habilidades}" th:text="${skill.nome} + ' (' + ${skill.nivel} + ')'">
-                    Habilidade (Nível)
+        <div th:unless="${#sets.isEmpty(perfil.habilidades)}">
+                <span class="habilidade-tag" th:each="skill : ${perfil.habilidades}">
+
+                    <img th:if="${skill.icone}" th:src="${skill.icone}"
+                         th:alt="${skill.nome} + ' Logo'"
+                         style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+
+                    <span th:text="${skill.nome} + ' (' + ${skill.nivel} + ')'">Habilidade (Nível)</span>
                 </span>
         </div>
     </section>
 
     <section id="experiencias">
         <h2>💼 Experiência Profissional</h2>
-        <div th:if="${#lists.isEmpty(perfil.experiencias)}">
+        <div th:if="${#sets.isEmpty(perfil.experiencias)}">
             <p>Nenhuma experiência cadastrada.</p>
         </div>
         <div th:unless="${#lists.isEmpty(perfil.experiencias)}" th:each="exp : ${perfil.experiencias}">

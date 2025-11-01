@@ -23,17 +23,17 @@ public class Pessoa {
     private String linkLinkedin;
     private String LinkGithub;
 
-    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Experiencia> experiencias = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Projeto> projetos =  new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "pessoa_habilidade",
             joinColumns = @JoinColumn(name = "pessoa_id"),

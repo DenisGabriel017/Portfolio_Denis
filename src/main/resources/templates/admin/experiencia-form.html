@@ -2,29 +2,41 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Adicionar Nova Experiência</title>
+    <title th:text="(${experiencia.id} == null) ? 'Nova Experiência' : 'Editar Experiência: ' + ${experiencia.titulo} + ' na ' + ${experiencia.empresaInstituicao}">
+        Gerenciar Experiência
+    </title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <style>
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group input[type="text"], .form-group textarea, .form-group input[type="date"] { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
         .form-group button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Adicionar Nova Experiência</h1>
+    <h1 th:text="(${experiencia.id} == null) ? 'Adicionar Nova Experiência' : 'Editar Experiência'">
+        Gerenciar Experiência
+    </h1>
+    <p><a th:href="@{/admin/experiencias}">&larr; Voltar para a Lista de Experiências</a></p>
 
-    <form th:action="@{/admin/experiencias/salvar}" th:object="${experiencia}" method="post">
+    <form th:action="@{/admin/experiencias/} + ((${experiencia.id} == null) ? 'salvar' : 'atualizar')" th:object="${experiencia}" method="post">
+
+        <input type="hidden" th:field="*{id}" th:if="*{id}">
 
         <div class="form-group">
-            <label for="titulo">Título do Cargo:</label>
-            <input type="text" id="titulo" th:field="*{titulo}" required>
+            <label for="empresa">Empresa:</label>
+            <input type="text" id="empresa" th:field="*{empresaInstituicao}" required>
         </div>
 
         <div class="form-group">
-            <label for="empresa">Empresa/Instituição:</label>
-            <input type="text" id="empresa" th:field="*{empresaInstituicao}" required>
+            <label for="cargo">Cargo/Função:</label>
+            <input type="text" id="cargo" th:field="*{titulo}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao">Descrição das Atividades:</label>
+            <textarea id="descricao" th:field="*{descricao}" rows="5" required></textarea>
         </div>
 
         <div class="form-group">
@@ -33,18 +45,12 @@
         </div>
 
         <div class="form-group">
-            <label for="dataFim">Data de Fim (Deixe vazio se for o cargo atual):</label>
+            <label for="dataFim">Data de Fim (deixe vazio se for atual):</label>
             <input type="date" id="dataFim" th:field="*{dataFim}">
         </div>
 
         <div class="form-group">
-            <label for="descricao">Descrição (Responsabilidades/Conquistas):</label>
-            <textarea id="descricao" th:field="*{descricao}" rows="5" required></textarea>
-        </div>
-
-        <div class="form-group">
-            <button type="submit">Salvar Experiência</button>
-            <a th:href="@{/}" style="margin-left: 10px;">Voltar para o Portfólio</a>
+            <button type="submit" th:text="(${experiencia.id} == null) ? 'Salvar Nova Experiência' : 'Atualizar Experiência'">Salvar</button>
         </div>
     </form>
 </div>

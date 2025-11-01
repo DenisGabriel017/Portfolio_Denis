@@ -6,12 +6,11 @@ import com.dnsoftware.portfolio_api.repository.ExperienciaRepository;
 import com.dnsoftware.portfolio_api.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -26,7 +25,16 @@ public class ExperienciaWebController {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    @GetMapping("/nova")
+    @Transactional
+    @GetMapping
+    public String listarExperiencias(Model model){
+        List<Experiencia> todasExperiencias = experienciaRepository.findAll();
+        model.addAttribute("experiencias",todasExperiencias);
+        return "admin/experiencia-admin";
+
+    }
+
+    @GetMapping("/novo")
     public String exibirFormularioCriacao(Model model){
         model.addAttribute("experiencia", new Experiencia());
         return "admin/experiencia-form";
@@ -41,8 +49,40 @@ public class ExperienciaWebController {
                 experiencia.setPessoa(pessoa);
                 pessoa.getExperiencias().add(experiencia);
                 pessoaRepository.save(pessoa);
-                return "redirect:/";
+                return "redirect:/admin/experiencias";
             }
         return "redirect:/perfil-nao-encontrado";
     }
+
+    @Transactional
+    @GetMapping("/editar/{id}")
+    public String exibirFormularioEdicao(@PathVariable Long id, Model model){
+        Optional<Experiencia> experienciaOpt = experienciaRepository.findById(id);
+
+        if (experienciaOpt.isPresent()){
+            model.addAttribute("experiencia", experienciaOpt.get());
+            return "admin/experiencia-form";
+        }
+        return "redirect:/admin/experiencias";
+    }
+
+    @PostMapping("/atualizar")
+    public String atualizarExperiencia(@ModelAttribute Experiencia experienciaAtualizada){
+        Optional<Pessoa> pessoaOpt = pessoaRepository.findById(MEU_PERFIL_ID);
+        if (pessoaOpt.isPresent()){
+            Pessoa pessoa = pessoaOpt.get();
+            experienciaAtualizada.setPessoa(pessoa);
+
+            experienciaRepository.save(experienciaAtualizada);
+            return "redirect:/admin/experiencias";
+        }
+        return "redirect:/perfil-nao-encontrado";
+    }
+
+    @PostMapping("/excluir/{id}")
+    public String excluirExperiencia(@PathVariable Long id){
+        experienciaRepository.deleteById(id);
+        return "redirect:/admin/experiencias";
+    }
+
 }

@@ -17,6 +17,7 @@
 
     <p>
         <a th:href="@{/}" class="btn-acao">&larr; Ver Portfólio</a>
+        <a th:href="@{/admin}" class="btn-acao">&larr; Voltar Pagina</a>
         <a th:href="@{/admin/projetos/novo}" class="btn-acao"> + Adicionar Novo Projeto</a>
     </p>
 
@@ -42,7 +43,7 @@
                     <span th:each="hab : ${proj.habilidades}" th:text="${hab.nome} + ', '" style="font-size: 0.9em; color: #555;">Tech</span>
                 </td>
                 <td>
-                    <a th:href="@{admin/projetos/editar/{id}(id=${proj.id})}" class="btn-acao">Editar</a>
+                    <a th:href="@{/admin/projetos/editar/{id}(id=${proj.id})}" class="btn-acao">Editar</a>
 
                     <form th:action="@{/admin/projetos/excluir/{id}(id=${proj.id})}" method="post" style="display: inline;">
                         <button type="submit" class="btn-excluir"

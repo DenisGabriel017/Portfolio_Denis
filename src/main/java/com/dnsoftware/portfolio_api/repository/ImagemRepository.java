@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ImagemRepository extends JpaRepository<Imagem, Integer> {
+public interface ImagemRepository extends JpaRepository<Imagem, Long> {
     List<Imagem> findByProjetoIdOrderByOrdemAsc(Long projetoId);
 }

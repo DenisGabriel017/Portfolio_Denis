@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Controle Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .admin-menu a { display: block; margin: 15px 0; padding: 10px; background-color: #f0f0f0; border: 1px solid #ddd; text-decoration: none; color: #007bff; border-radius: 5px; }
+        .admin-menu a:hover { background-color: #e9e9e9; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔑 Painel de Administração do Portfólio</h1>
+    <p>Bem-vindo(a) à área de gerenciamento de conteúdo.</p>
+
+    <div class="admin-menu">
+        <h2>Gerenciamento de Conteúdo</h2>
+
+        <a th:href="@{/admin/perfil/editar}">1. Editar Meu Perfil (Dados Pessoais)</a>
+        <a th:href="@{/admin/experiencias}">2. Gerenciar Experiências (CRUD)</a>
+        <a th:href="@{/admin/projetos}">3. Gerenciar Projetos, Habilidades e Imagens (CRUD)</a>
+        <a th:href="@{/admin/habilidades}">4. Gerenciar Lista de Habilidades/Tecnologias (CRUD)</a>
+    </div>
+
+    <form th:action="@{/logout}" method="post" style="margin-top: 30px;">
+        <button type="submit" class="btn-excluir" style="background-color: #dc3545;">Sair (Logout)</button>
+    </form>
+
+    <p style="margin-top: 20px;"><a th:href="@{/}" >&larr; Ver Portfólio Público</a></p>
+</div>
+</body>
+</html>

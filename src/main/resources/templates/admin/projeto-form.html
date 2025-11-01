@@ -12,6 +12,7 @@
         .form-group button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
         .checkbox-group { border: 1px solid #ddd; padding: 10px; height: 150px; overflow-y: scroll; background-color: #f9f9f9; }
         .checkbox-group label { display: inline-block; margin-right: 15px; font-weight: normal; }
+        .btn-excluir { background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -64,6 +65,40 @@
             <button type="submit" th:text="(${projeto.id} == null) ? 'Salvar Novo Projeto' : 'Atualizar Projeto'">Salvar Projeto</button>
         </div>
     </form>
+    <div th:if="*{id != null}" style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px;">
+        <h2>🖼️ Gerenciar Imagens</h2>
+
+        <form th:action="@{/admin/imagens/salvar/{projetoId}(projetoId=*{id})}" method="post">
+            <div class="form-group-inline" style="display: flex; gap: 10px;">
+                <div style="flex-grow: 1;">
+                    <label for="url">URL da Imagem (Ex: https://cdn.com/foto1.png):</label>
+                    <input type="text" id="url" name="url" placeholder="Insira a URL da imagem aqui" required style="width: 100%;">
+                </div>
+                <div style="padding-top: 25px;">
+                    <button type="submit" style="background-color: green; color: white; padding: 10px 15px; border-radius: 4px; border: none; cursor: pointer;">Adicionar Imagem</button>
+                </div>
+            </div>
+        </form>
+
+        <h3 style="margin-top: 20px;">Imagens Atuais:</h3>
+        <div th:if="${#lists.isEmpty(projeto.imagens)}">
+            <p>Nenhuma imagem cadastrada para este projeto.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(projeto.imagens)}" style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <div th:each="img : ${projeto.imagens}" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <img th:src="${img.url}" style="max-width: 100px; max-height: 100px; display: block; margin-bottom: 5px;">
+                <small th:text="${img.nomeArquivo}"></small>
+
+                <form th:action="@{/admin/imagens/excluir/{id}(id=${img.id})}" method="post" style="margin-top: 5px;">
+                    <button type="submit" class="btn-excluir"
+                            onclick="return confirm('Tem certeza que deseja remover esta imagem?')"
+                            style="background-color: red; padding: 3px 8px; font-size: 0.8em;">
+                        Remover
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
