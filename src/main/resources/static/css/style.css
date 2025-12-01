@@ -1,0 +1,183 @@
+/* Variáveis CSS para sua paleta de cores (DEVE ESTAR NO TOPO) */
+:root {
+    --primary-dark-blue: #242F7A;    /* Fundo principal da página */
+    --secondary-dark-brown: #5D4216; /* Cor da navbar, acentos */
+    --light-creme: #F5EBCB;          /* Cor de cards, texto em fundo escuro */
+    --light-lavender: #D1DCFA;       /* Cor para cabeçalhos de seção, destaques */
+    --medium-grey-blue: #8D88BA;     /* Botões secundários, bordas */
+    --medium-beige-grey: #A69A6D;    /* Texto de detalhes, bordas sutis */
+}
+
+/* Estilo Básico do Corpo (APLICADO UMA VEZ) */
+body {
+    font-family: 'Poppins', sans-serif; /* Fonte moderna */
+    background-color: var(--primary-dark-blue); /* Fundo da página */
+    color: var(--light-creme); /* Cor padrão do texto no fundo escuro */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Regra Geral do Container (Ajustada para o novo design) */
+.container {
+    width: 90%; /* Aumentamos a largura para usar melhor o espaço */
+    margin: auto;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+/* Regra Antiga de Header (REMOVIDA e substituída pela .navbar) */
+/* Regra Antiga de Section (REMOVIDA, substituída pelo section e .card-custom) */
+
+/* Navbar Personalizada */
+.navbar {
+    background-color: var(--secondary-dark-brown) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.navbar-brand {
+    color: var(--light-creme) !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.navbar .nav-link {
+    color: var(--light-creme) !important;
+    font-weight: 500;
+    margin-left: 15px;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: var(--light-lavender) !important;
+}
+
+/* Botões do Painel Admin */
+.btn-admin-panel {
+    background-color: var(--medium-grey-blue);
+    color: var(--light-creme);
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+.btn-admin-panel:hover {
+    background-color: var(--light-lavender);
+    color: var(--primary-dark-blue);
+}
+
+/* Seções Gerais */
+section {
+    padding: 60px 0;
+    margin-bottom: 20px;
+}
+
+section h2 {
+    color: var(--light-lavender);
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+/* Cards Personalizados */
+.card-custom {
+    background-color: var(--light-creme);
+    color: var(--primary-dark-blue);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    padding: 20px;
+    margin-bottom: 30px;
+    height: 100%; /* Garante altura uniforme no grid */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card-custom .btn {
+    background-color: var(--primary-dark-blue);
+    color: var(--light-creme);
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-top: auto; /* Empurra o botão para o rodapé do card */
+}
+
+.card-custom .btn:hover {
+    background-color: var(--medium-grey-blue);
+}
+
+/* Seção Hero/Sobre Mim */
+.hero-section {
+    background-color: var(--primary-dark-blue);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.profile-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--light-lavender);
+    margin-bottom: 25px;
+}
+
+.hero-section h1 {
+    color: var(--light-creme);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    color: var(--light-lavender);
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+    font-size: 1.1em;
+}
+
+.social-icons a {
+    color: var(--light-lavender);
+    font-size: 2em;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--light-creme);
+}
+
+/* Seção de Habilidades (Tags) */
+.habilidade-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--medium-grey-blue);
+    color: var(--light-creme);
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.habilidade-tag img {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+/* Rodapé */
+footer {
+    background-color: var(--secondary-dark-brown) !important;
+    color: var(--light-creme) !important;
+    padding: 40px 0;
+    font-size: 0.9em;
+}
